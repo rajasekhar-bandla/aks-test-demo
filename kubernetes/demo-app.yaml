@@ -1,0 +1,39 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: aks-test-demo
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: aks-test-demo
+  template:
+    metadata:
+      labels:
+        app: aks-test-demo
+    spec:
+      nodeSelector:
+        "kubernetes.io/os": linux
+      containers:
+      - name: aks-test-demo
+        image: mydemoregis.azurecr.io/mydemo/mydemo:prod
+        resources:
+          requests:
+            cpu: 100m
+            memory: 128Mi
+          limits:
+            cpu: 250m
+            memory: 256Mi
+        ports:
+        - containerPort: 8080
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: aks-test-demo
+spec:
+  type: LoadBalancer
+  ports:
+  - port: 8080
+  selector:
+    app: aks-test-demo

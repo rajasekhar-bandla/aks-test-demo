@@ -1,0 +1,9 @@
+# exclude all by default
+
+*
+
+# exceptions from `exclude all` rule
+
+!target/**
+!src/**
+!pom.xml
